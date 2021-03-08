@@ -23,4 +23,11 @@ public final class Validation {
                     " is invalid: " + cronValue);
         }
     }
+
+    public static void validateIntegerInMinMaxBounds(int i, TimeField timeField) {
+        if(timeField.isOutOfBounds(i)) {
+            throw new InvalidCronException("Value: " + i + " is out of bounds for " + timeField.toString()
+                    + " time field");
+        }
+    }
 }

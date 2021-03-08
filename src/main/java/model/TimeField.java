@@ -16,6 +16,10 @@ public enum TimeField {
         this.max = max;
     }
 
+    public boolean isOutOfBounds(int i) {
+        return i < min || i > max;
+    }
+
     public int getMin() {
         return min;
     }

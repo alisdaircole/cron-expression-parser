@@ -13,6 +13,7 @@ import java.util.stream.Stream;
 import static parser.GenerateInteger.getIntegersInRange;
 import static parser.GenerateInteger.getIntegersInRangeFromCron;
 import static validation.Validation.validateCronValue;
+import static validation.Validation.validateIntegerInMinMaxBounds;
 
 public final class ParseCronString {
 
@@ -45,10 +46,11 @@ public final class ParseCronString {
         if (cronValueIncrementStripped.equals(Operator.ALL)) {
             parsedCronValueStream = getIntegersInRange(timeField.getMin(), timeField.getMax());
         } else if (cronValueIncrementStripped.contains(Operator.RANGE)) {
-            parsedCronValueStream = getIntegersInRangeFromCron(cronValueIncrementStripped);
+            parsedCronValueStream = getIntegersInRangeFromCron(cronValueIncrementStripped, timeField);
         } else {
             noOperatorCron = true;
             int cronValueIncrementStrippedInt = Integer.parseInt(cronValueIncrementStripped);
+            validateIntegerInMinMaxBounds(cronValueIncrementStrippedInt, timeField);
             parsedCronValueStream = Stream.of(cronValueIncrementStrippedInt);
         }
 

@@ -15,6 +15,7 @@ import static util.TestValues.INVALID_INPUT;
 import static util.TestValues.VALID_INPUT;
 import static validation.Validation.validateCronValue;
 import static validation.Validation.validateInputSize;
+import static validation.Validation.validateIntegerInMinMaxBounds;
 
 class ValidationTest {
 
@@ -117,6 +118,40 @@ class ValidationTest {
                 Arguments.of("10/", TimeField.HOUR, "The following cron for time field hour is invalid: 10/"),
                 Arguments.of("10-", TimeField.MONTH, "The following cron for time field month is invalid: 10-"),
                 Arguments.of("", TimeField.MONTH, "The following cron for time field month is invalid: ")
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("validateIntegerInMinMaxBoundsWithValidIntegerCompletesSuccessfullyParameters")
+    public void validateIntegerInMinMaxBoundsWithValidIntegerCompletesSuccessfully(int i, TimeField timeField) {
+        validateIntegerInMinMaxBounds(i, timeField);
+    }
+
+    private static Stream<Arguments> validateIntegerInMinMaxBoundsWithValidIntegerCompletesSuccessfullyParameters() {
+        return Stream.of(
+                Arguments.of(0, TimeField.HOUR),
+                Arguments.of(23, TimeField.HOUR)
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("validateIntegerInMinMaxBoundsWithInvalidIntegerThrowsExceptionParameters")
+    public void validateIntegerInMinMaxBoundsWithInvalidIntegerThrowsException(int i, TimeField timeField,
+                                                                               String expectedExceptionMessage) {
+        InvalidCronException exception = assertThrows(InvalidCronException.class,
+                () ->  validateIntegerInMinMaxBounds(i, timeField));
+
+        String actualExceptionMessage = exception.getMessage();
+
+        assertEquals(expectedExceptionMessage, actualExceptionMessage);
+    }
+
+    private static Stream<Arguments> validateIntegerInMinMaxBoundsWithInvalidIntegerThrowsExceptionParameters() {
+        return Stream.of(
+                Arguments.of(0, TimeField.DAY_OF_WEEK, "Value: 0 is out of bounds for day of week time field"),
+                Arguments.of(8, TimeField.DAY_OF_WEEK, "Value: 8 is out of bounds for day of week time field"),
+                Arguments.of(100, TimeField.DAY_OF_WEEK, "Value: 100 is out of bounds for day of week time field"),
+                Arguments.of(-1, TimeField.DAY_OF_WEEK, "Value: -1 is out of bounds for day of week time field")
         );
     }
 }

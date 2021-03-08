@@ -121,4 +121,18 @@ class ParseCronStringTest {
                         TimeField.MINUTE))
         );
     }
+
+    @Test
+    public void getCronWithOutOfBoundsStringThrowsException() {
+        String outOfBoundsCronString = "1000";
+        TimeField timeField = TimeField.MINUTE;
+
+        InvalidCronException exception = assertThrows(InvalidCronException.class,
+                () -> getCron(outOfBoundsCronString, timeField));
+
+        String expectedExceptionMessage = "Value: 1000 is out of bounds for minute time field";
+        String actualExceptionMessage = exception.getMessage();
+
+        assertEquals(expectedExceptionMessage, actualExceptionMessage);
+    }
 }
