@@ -23,4 +23,11 @@ public enum TimeField {
     public int getMax() {
         return max;
     }
+
+    @Override
+    public String toString() {
+        return this.name()
+                .replace("_", " ")
+                .toLowerCase();
+    }
 }
