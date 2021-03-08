@@ -1,9 +1,17 @@
 plugins {
     id 'java'
+    id 'application'
 }
+
+sourceCompatibility = 15
+targetCompatibility = 15
 
 group 'dev.alisdair'
 version '1.0-SNAPSHOT'
+
+application {
+    mainClass = 'Main'
+}
 
 repositories {
     mavenCentral()
