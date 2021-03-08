@@ -5,13 +5,14 @@ import model.TimeField;
 
 public final class Validation {
 
+    private static final int NUMBER_OF_TIME_FIELDS_PLUS_COMMAND_FIELD = TimeField.values().length + 1;
     private static final String CRON_VALUE_VALIDATION_PATTERN = "^((\\d+(-\\d+)?)|\\*)(/\\d+)?$";
 
     private Validation() {
     }
 
     public static void validateInputSize(String[] cronValues) {
-        if (cronValues.length != 6) {
+        if (cronValues.length != NUMBER_OF_TIME_FIELDS_PLUS_COMMAND_FIELD) {
             throw new InvalidCronException("Invalid input, should consist of five whitespace separated time fields " +
                     "(minute, hour, day of month, month, and day of week), plus a command");
         }

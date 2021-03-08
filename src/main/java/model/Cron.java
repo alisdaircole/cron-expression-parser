@@ -2,6 +2,9 @@ package model;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
+
+import static util.StringFormatter.getStringWithWhitespacePadding;
 
 public class Cron {
 
@@ -11,6 +14,16 @@ public class Cron {
     public Cron(List<Integer> cronResults, TimeField timeField) {
         this.cronResults = cronResults;
         this.timeField = timeField;
+    }
+
+    @Override
+    public String toString() {
+        String cronResultValues = cronResults.stream()
+                .map(String::valueOf)
+                .collect(Collectors.joining(" "));
+
+        return cronResultValues.isEmpty() ? timeField.toString() :
+                getStringWithWhitespacePadding(timeField.toString(), cronResultValues);
     }
 
     @Override

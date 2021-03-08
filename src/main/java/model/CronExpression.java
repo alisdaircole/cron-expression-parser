@@ -2,6 +2,8 @@ package model;
 
 import java.util.Objects;
 
+import static util.StringFormatter.getStringWithWhitespacePadding;
+
 public class CronExpression {
 
     private final Cron minute;
@@ -19,6 +21,16 @@ public class CronExpression {
         this.month = month;
         this.dayOfWeek = dayOfWeek;
         this.command = command;
+    }
+
+    @Override
+    public String toString() {
+        return minute.toString() + "\n" +
+                hour.toString() + "\n" +
+                dayOfMonth.toString() + "\n" +
+                month.toString() + "\n" +
+                dayOfWeek.toString() + "\n" +
+                getStringWithWhitespacePadding("command", command);
     }
 
     @Override
